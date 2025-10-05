@@ -2,24 +2,43 @@
 
 ## 2. Updated index.html
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags -->
-    <title>The Novice Coder | Beginner-Friendly Programming Blog</title>
-    <meta name="description" content="Join my coding journey from beginner to developer. Tutorials, projects, and learning experiences for aspiring programmers.">
-    <meta name="keywords" content="beginner programming, learn to code, coding tutorials, web development, python, javascript, coding journey">
+    <!-- Critical SEO Meta Tags -->
+    <title>The Novice Coder | Beginner-Friendly Programming Blog & Tutorials</title>
+    <meta name="description" content="Join my coding journey from beginner to developer. Step-by-step tutorials, projects, and learning experiences for aspiring programmers in Python, JavaScript, and web development.">
+    <meta name="keywords" content="beginner programming, learn to code, coding tutorials, web development, python, javascript, coding journey, programming basics, coding for beginners">
     <meta name="author" content="Your Name">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="The Novice Coder | Beginner Programming Blog">
-    <meta property="og:description" content="Coding tutorials and learning experiences for beginners">
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="The Novice Coder | Beginner Programming Blog & Tutorials">
+    <meta property="og:description" content="Step-by-step coding tutorials and learning experiences for beginners starting their programming journey.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://heaslis3-dcu.github.io/novice-coder">
+    <meta property="og:url" content="https://heaslis3-dcu.github.io/the-novice-coder-blog">
+    <meta property="og:image" content="https://heaslis3-dcu.github.io/the-novice-coder-blog/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="The Novice Coder">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Novice Coder | Beginner Programming Blog">
+    <meta name="twitter:description" content="Coding tutorials and learning experiences for beginners">
+    <meta name="twitter:image" content="https://heaslis3-dcu.github.io/the-novice-coder-blog/assets/images/twitter-image.jpg">
+    
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://heaslis3-dcu.github.io/the-novice-coder-blog">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="js/main.js" as="script">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -27,104 +46,140 @@
         "@context": "https://schema.org",
         "@type": "Blog",
         "name": "The Novice Coder",
-        "description": "Beginner-friendly programming tutorials and coding journey",
-        "url": "https://heaslis3-dcu.github.io/novice-coder",
+        "description": "Beginner-friendly programming tutorials and coding journey documentation",
+        "url": "https://heaslis3-dcu.github.io/the-novice-coder-blog",
         "publisher": {
             "@type": "Person",
-            "name": "Your Name"
+            "name": "Your Name",
+            "url": "https://heaslis3-dcu.github.io/the-novice-coder-blog/about",
+            "sameAs": [
+                "https://github.com/heaslis3-dcu",
+                "https://linkedin.com/in/sean-heaslip2019"
+            ]
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://heaslis3-dcu.github.io/the-novice-coder-blog"
         }
     }
     </script>
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' 'unsafe-inline'; 
+                   style-src 'self' 'unsafe-inline'; 
+                   img-src 'self' data: https:;
+                   connect-src 'self' https://raw.githubusercontent.com;">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Header -->
-    <header>
+    <header role="banner">
         <div class="container header-container">
-            <div class="logo">
-                <span class="logo-icon">🚀</span>
+            <a href="#" class="logo" aria-label="The Novice Coder Home">
+                <span class="logo-icon" aria-hidden="true">🚀</span>
                 <span>The Novice Coder</span>
-            </div>
-            <nav>
+            </a>
+            
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger" aria-hidden="true">☰</span>
+            </button>
+            
+            <nav role="navigation" aria-label="Main navigation">
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="#" aria-current="page">Home</a></li>
                     <li><a href="#tutorials">Tutorials</a></li>
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#resources">Resources</a></li>
-                    <li><a href="#about">My Journey</a></li>
+                    <li><a href="#journey">My Journey</a></li>
                 </ul>
             </nav>
-            <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search tutorials...">
+            
+            <div class="search-container" role="search">
+                <input type="text" class="search-box" placeholder="Search tutorials..." aria-label="Search blog posts">
                 <button class="search-btn">Search</button>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="main-content" role="main">
         <div class="container">
             <h1>The Novice Coder</h1>
-            <p>Join my journey from beginner to developer. Sharing tutorials, projects, and lessons learned while learning to code.</p>
+            <p>Join my journey from beginner to developer. Step-by-step tutorials, real projects, and honest lessons learned while learning to code.</p>
             <a href="#tutorials" class="cta-button">Start Learning</a>
         </div>
     </section>
 
     <!-- Featured Posts -->
-    <section class="container" id="tutorials">
-        <h2 class="section-title">Latest Tutorials</h2>
-        <div class="posts-grid" id="posts-grid">
-            <!-- Posts loaded by JavaScript -->
+    <section id="tutorials" aria-labelledby="featured-posts">
+        <div class="container">
+            <h2 class="section-title" id="featured-posts">Latest Tutorials</h2>
+            <div class="posts-grid" id="posts-grid">
+                <!-- Posts loaded by JavaScript -->
+            </div>
         </div>
     </section>
 
     <!-- Archive Section -->
-    <section class="archive-section" id="resources">
+    <section class="archive-section" id="resources" aria-labelledby="learning-resources">
         <div class="container">
-            <h2 class="section-title">Learning Resources</h2>
+            <h2 class="section-title" id="learning-resources">Learning Resources</h2>
             <div class="archive-container">
                 <div class="archive-sidebar">
                     <h3>Categories</h3>
                     <ul class="categories-list" id="categories-list">
-                        <!-- Loaded by JS -->
+                        <!-- Categories loaded by JS -->
                     </ul>
 
                     <h3>Skill Level</h3>
                     <ul class="year-list" id="skill-level-list">
-                        <li><a href="#" data-level="beginner">Beginner</a></li>
+                        <li><a href="#" data-level="beginner" class="active">Beginner</a></li>
                         <li><a href="#" data-level="intermediate">Intermediate</a></li>
                         <li><a href="#" data-level="advanced">Advanced</a></li>
                     </ul>
                 </div>
 
                 <div class="archive-content" id="archive-content">
-                    <!-- Archive content -->
+                    <!-- Archive content loaded by JS -->
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-about">
                     <h3>About The Novice Coder</h3>
-                    <p>Documenting my coding journey from complete beginner to professional developer. Sharing the ups, downs, and everything in between.</p>
+                    <p>Documenting my coding journey from complete beginner to professional developer. Sharing honest experiences, tutorials, and resources for fellow learners.</p>
                     <div class="social-links">
-                        <a href="https://github.com/yourusername" class="social-icon" target="_blank">GH</a>
-                        <a href="#" class="social-icon" target="_blank">LI</a>
-                        <a href="#" class="social-icon" target="_blank">TW</a>
-                        <a href="#" class="social-icon" target="_blank">YT</a>
+                        <a href="https://github.com/heaslis3-dcu" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <span aria-hidden="true">GH</span>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <span aria-hidden="true">LI</span>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <span aria-hidden="true">TW</span>
+                        </a>
+                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <span aria-hidden="true">YT</span>
+                        </a>
                     </div>
                 </div>
                 <div class="footer-links">
                     <div>
                         <h4>Learning Paths</h4>
                         <ul id="footer-categories">
-                            <!-- Loaded by JS -->
+                            <!-- Categories loaded by JS -->
                         </ul>
                     </div>
                     <div>
@@ -134,19 +189,34 @@
                             <li><a href="#tutorials">Tutorials</a></li>
                             <li><a href="#projects">Projects</a></li>
                             <li><a href="#resources">Resources</a></li>
-                            <li><a href="#about">My Journey</a></li>
+                            <li><a href="#journey">My Journey</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 The Novice Coder. All rights reserved.</p>
+                <p>&copy; 2023 The Novice Coder. All rights reserved. | Built with 💻 and ☕</p>
             </div>
         </div>
     </footer>
 
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner" aria-live="polite" aria-label="Loading content">
+        <div class="spinner"></div>
+        <p>Loading tutorials...</p>
+    </div>
+
+    <!-- Error Boundary -->
+    <div id="error-boundary" class="error-boundary" role="alert" hidden>
+        <h3>Something went wrong</h3>
+        <p>Please refresh the page or try again later.</p>
+        <button onclick="window.location.reload()">Reload Page</button>
+    </div>
+
+    <script src="js/security.js"></script>
     <script src="js/main.js"></script>
     <script src="js/search.js"></script>
     <script src="js/archive.js"></script>
+    <script src="js/github-cms.js"></script>
 </body>
 </html>

@@ -1,0 +1,193 @@
+
+/* css/responsive.css - Responsive design breakpoints */
+
+/* Mobile Navigation Styles */
+@media (max-width: 767px) {
+    .nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    nav {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    nav.active {
+        max-height: 300px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0;
+        padding: 1rem 0;
+    }
+
+    nav li {
+        border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    nav a {
+        display: block;
+        padding: 12px 0;
+    }
+
+    .search-container {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .posts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-content {
+        flex-direction: column;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .posts-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .archive-container {
+        flex-direction: row;
+    }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+    :root {
+        --text-primary: #ffffff;
+        --text-secondary: #cccccc;
+        --accent: #00ffcc;
+    }
+    
+    .post-card {
+        border: 2px solid var(--accent);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .cta-button::before {
+        display: none;
+    }
+    
+    .post-card:hover,
+    .post-card:focus-within {
+        transform: none;
+    }
+}
+
+/* Dark mode support (already dark, but for consistency) */
+@media (prefers-color-scheme: dark) {
+    /* Our theme is already dark, so no changes needed */
+}
+
+/* Print styles */
+@media print {
+    .nav-toggle,
+    .search-container,
+    .social-links {
+        display: none !important;
+    }
+    
+    .post-card {
+        break-inside: avoid;
+        border: 1px solid #000 !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* Large screen support */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.3rem;
+    }
+    
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        padding: 2rem 0;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .post-card:hover {
+        transform: none;
+    }
+    
+    .cta-button:hover {
+        transform: none;
+    }
+}
+
+/* Very large screens */
+@media (min-width: 2000px) {
+    .container {
+        max-width: 1800px;
+    }
+    
+    html {
+        font-size: 18px;
+    }
+}
