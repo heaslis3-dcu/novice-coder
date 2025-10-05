@@ -1,77 +1,16 @@
 
-
-## 2. Updated index.html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Critical SEO Meta Tags -->
+    <!-- SEO Meta Tags -->
     <title>The Novice Coder | Beginner-Friendly Programming Blog & Tutorials</title>
-    <meta name="description" content="Join my coding journey from beginner to developer. Step-by-step tutorials, projects, and learning experiences for aspiring programmers in Python, JavaScript, and web development.">
-    <meta name="keywords" content="beginner programming, learn to code, coding tutorials, web development, python, javascript, coding journey, programming basics, coding for beginners">
-    <meta name="author" content="Your Name">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="description" content="Join my coding journey from beginner to developer. Step-by-step tutorials, projects, and learning experiences for aspiring programmers.">
+    <meta name="keywords" content="beginner programming, learn to code, coding tutorials, web development, python, javascript">
+    <meta name="author" content="heaslis3-dcu">
     
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="The Novice Coder | Beginner Programming Blog & Tutorials">
-    <meta property="og:description" content="Step-by-step coding tutorials and learning experiences for beginners starting their programming journey.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://heaslis3-dcu.github.io/the-novice-coder-blog">
-    <meta property="og:image" content="https://heaslis3-dcu.github.io/the-novice-coder-blog/assets/images/og-image.jpg">
-    <meta property="og:site_name" content="The Novice Coder">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="The Novice Coder | Beginner Programming Blog">
-    <meta name="twitter:description" content="Coding tutorials and learning experiences for beginners">
-    <meta name="twitter:image" content="https://heaslis3-dcu.github.io/the-novice-coder-blog/assets/images/twitter-image.jpg">
-    
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://heaslis3-dcu.github.io/the-novice-coder-blog">
-    
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="preload" href="js/main.js" as="script">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "name": "The Novice Coder",
-        "description": "Beginner-friendly programming tutorials and coding journey documentation",
-        "url": "https://heaslis3-dcu.github.io/the-novice-coder-blog",
-        "publisher": {
-            "@type": "Person",
-            "name": "Your Name",
-            "url": "https://heaslis3-dcu.github.io/the-novice-coder-blog/about",
-            "sameAs": [
-                "https://github.com/heaslis3-dcu",
-                "https://linkedin.com/in/sean-heaslip2019"
-            ]
-        },
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "https://heaslis3-dcu.github.io/the-novice-coder-blog"
-        }
-    }
-    </script>
-
-    <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self'; 
-                   script-src 'self' 'unsafe-inline'; 
-                   style-src 'self' 'unsafe-inline'; 
-                   img-src 'self' data: https:;
-                   connect-src 'self' https://raw.githubusercontent.com;">
-
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -122,7 +61,8 @@
         <div class="container">
             <h2 class="section-title" id="featured-posts">Latest Tutorials</h2>
             <div class="posts-grid" id="posts-grid">
-                <!-- Posts loaded by JavaScript -->
+                <!-- Posts will be loaded here -->
+                <div class="loading-message">Loading posts...</div>
             </div>
         </div>
     </section>
@@ -135,7 +75,7 @@
                 <div class="archive-sidebar">
                     <h3>Categories</h3>
                     <ul class="categories-list" id="categories-list">
-                        <!-- Categories loaded by JS -->
+                        <li>Loading categories...</li>
                     </ul>
 
                     <h3>Skill Level</h3>
@@ -147,7 +87,12 @@
                 </div>
 
                 <div class="archive-content" id="archive-content">
-                    <!-- Archive content loaded by JS -->
+                    <div class="month-section">
+                        <h3 class="month-title">Recent Posts</h3>
+                        <ul class="post-list">
+                            <li>Loading archive...</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,27 +104,17 @@
             <div class="footer-content">
                 <div class="footer-about">
                     <h3>About The Novice Coder</h3>
-                    <p>Documenting my coding journey from complete beginner to professional developer. Sharing honest experiences, tutorials, and resources for fellow learners.</p>
+                    <p>Documenting my coding journey from complete beginner to professional developer.</p>
                     <div class="social-links">
-                        <a href="https://github.com/heaslis3-dcu" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <span aria-hidden="true">GH</span>
-                        </a>
-                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <span aria-hidden="true">LI</span>
-                        </a>
-                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <span aria-hidden="true">TW</span>
-                        </a>
-                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                            <span aria-hidden="true">YT</span>
-                        </a>
+                        <a href="https://github.com/heaslis3-dcu" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="GitHub">GH</a>
+                        <a href="#" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">LI</a>
                     </div>
                 </div>
                 <div class="footer-links">
                     <div>
                         <h4>Learning Paths</h4>
                         <ul id="footer-categories">
-                            <!-- Categories loaded by JS -->
+                            <li>Loading...</li>
                         </ul>
                     </div>
                     <div>
@@ -188,35 +123,462 @@
                             <li><a href="#">Home</a></li>
                             <li><a href="#tutorials">Tutorials</a></li>
                             <li><a href="#projects">Projects</a></li>
-                            <li><a href="#resources">Resources</a></li>
-                            <li><a href="#journey">My Journey</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 The Novice Coder. All rights reserved. | Built with 💻 and ☕</p>
+                <p>&copy; 2023 The Novice Coder. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Loading Spinner -->
-    <div id="loading-spinner" class="loading-spinner" aria-live="polite" aria-label="Loading content">
-        <div class="spinner"></div>
-        <p>Loading tutorials...</p>
-    </div>
+    <!-- Single JavaScript file with everything included -->
+    <script>
+    // Complete blog functionality with JSON loading
+    console.log('Blog script loading...');
 
-    <!-- Error Boundary -->
-    <div id="error-boundary" class="error-boundary" role="alert" hidden>
-        <h3>Something went wrong</h3>
-        <p>Please refresh the page or try again later.</p>
-        <button onclick="window.location.reload()">Reload Page</button>
-    </div>
+    // Configuration
+    const GITHUB_USERNAME = 'heaslis3-dcu';
+    const REPO_NAME = 'novice-coder';
+    const REPO_BRANCH = 'main';
+    const RAW_BASE_URL = '.'; // Use local files
 
-    <script src="js/security.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/search.js"></script>
-    <script src="js/archive.js"></script>
-    <script src="js/github-cms.js"></script>
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, initializing blog...');
+        initializeBlog();
+    });
+
+    async function initializeBlog() {
+        try {
+            console.log('Starting blog initialization...');
+            
+            // Load posts from JSON files
+            const posts = await loadAllPosts();
+            console.log('Loaded posts:', posts);
+            
+            // Load featured posts
+            loadFeaturedPosts(posts);
+            
+            // Load categories
+            loadCategories(posts);
+            
+            // Load archive
+            loadArchive(posts);
+            
+            // Initialize search
+            initializeSearch(posts);
+            
+            // Initialize mobile navigation
+            initializeMobileNavigation();
+            
+            console.log('Blog initialization complete');
+            
+        } catch (error) {
+            console.error('Error initializing blog:', error);
+            // Fallback to sample data
+            console.log('Using fallback data...');
+            const fallbackPosts = getFallbackPosts();
+            loadFeaturedPosts(fallbackPosts);
+            loadCategories(fallbackPosts);
+            loadArchive(fallbackPosts);
+        }
+    }
+
+    async function loadAllPosts() {
+        try {
+            console.log('Loading posts from JSON files...');
+            
+            // List of post JSON files to load
+            const postFiles = [
+                'getting-started-programming.json',
+                'python-basics-first-program.json', 
+                'html-css-first-website.json',
+                'setting-up-development-environment.json',
+                'build-calculator-javascript.json',
+                'learning-code-study-strategies.json'
+            ];
+            
+            const posts = [];
+            
+            // Load each post file
+            for (const postFile of postFiles) {
+                try {
+                    const post = await loadPostFromFile(postFile);
+                    if (post) {
+                        posts.push(post);
+                    }
+                } catch (error) {
+                    console.warn(`Failed to load ${postFile}:`, error);
+                }
+            }
+            
+            console.log(`Successfully loaded ${posts.length} posts`);
+            return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+        } catch (error) {
+            console.error('Error loading posts:', error);
+            throw error;
+        }
+    }
+
+    async function loadPostFromFile(filename) {
+        try {
+            const response = await fetch(`${RAW_BASE_URL}/posts/${filename}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const postData = await response.json();
+            console.log(`Loaded post: ${postData.title}`);
+            return postData;
+            
+        } catch (error) {
+            console.error(`Error loading ${filename}:`, error);
+            return null;
+        }
+    }
+
+    function loadFeaturedPosts(posts) {
+        const postsGrid = document.getElementById('posts-grid');
+        if (!postsGrid) {
+            console.error('Posts grid element not found!');
+            return;
+        }
+
+        // Take first 6 posts
+        const recentPosts = posts.slice(0, 6);
+        
+        console.log('Loading', recentPosts.length, 'posts into grid');
+
+        postsGrid.innerHTML = recentPosts.map(post => `
+            <article class="post-card" data-post-id="${post.id}" tabindex="0">
+                <div class="card-image">
+                    <span>${post.icon || '📄'}</span>
+                </div>
+                <div class="card-content">
+                    <span class="category-tag">${escapeHtml(post.category)}</span>
+                    <span class="skill-level ${post.skillLevel}">${post.skillLevel}</span>
+                    <h3>${escapeHtml(post.title)}</h3>
+                    <p>${escapeHtml(post.excerpt)}</p>
+                    <div class="card-meta">
+                        <time datetime="${post.date}">${formatDate(post.date)}</time>
+                        <span>${post.readTime}</span>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+
+        // Add click events to cards
+        const postCards = document.querySelectorAll('.post-card');
+        console.log('Found', postCards.length, 'post cards');
+        
+        postCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const postId = this.getAttribute('data-post-id');
+                console.log('Card clicked! Post ID:', postId);
+                viewPost(postId, posts);
+            });
+            
+            // Keyboard support
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const postId = this.getAttribute('data-post-id');
+                    viewPost(postId, posts);
+                }
+            });
+        });
+    }
+
+    function viewPost(postId, posts) {
+        const post = posts.find(p => p.id === parseInt(postId));
+        if (post) {
+            // Create a modal to show the full post content
+            showPostModal(post);
+        } else {
+            alert('Post not found: ' + postId);
+        }
+    }
+
+    function showPostModal(post) {
+        // Create modal overlay
+        const modalOverlay = document.createElement('div');
+        modalOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        `;
+
+        // Create modal content
+        const modalContent = document.createElement('div');
+        modalContent.style.cssText = `
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 2px solid var(--accent);
+            position: relative;
+        `;
+
+        // Close button
+        const closeButton = document.createElement('button');
+        closeButton.textContent = '×';
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        closeButton.onclick = () => document.body.removeChild(modalOverlay);
+
+        // Post content
+        const postHTML = `
+            <div style="margin-bottom: 2rem;">
+                <span class="category-tag">${escapeHtml(post.category)}</span>
+                <span class="skill-level ${post.skillLevel}">${post.skillLevel}</span>
+            </div>
+            <h1 style="color: var(--accent); margin-bottom: 1rem; font-size: 2.5rem;">${escapeHtml(post.title)}</h1>
+            <div style="color: var(--text-secondary); margin-bottom: 2rem; display: flex; gap: 2rem;">
+                <time datetime="${post.date}">${formatDate(post.date)}</time>
+                <span>${post.readTime}</span>
+            </div>
+            <div style="line-height: 1.8; font-size: 1.1rem;">
+                ${post.content}
+            </div>
+        `;
+
+        modalContent.appendChild(closeButton);
+        modalContent.innerHTML += postHTML;
+        modalOverlay.appendChild(modalContent);
+
+        // Close on overlay click
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                document.body.removeChild(modalOverlay);
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function closeModal(e) {
+            if (e.key === 'Escape') {
+                document.body.removeChild(modalOverlay);
+                document.removeEventListener('keydown', closeModal);
+            }
+        });
+
+        document.body.appendChild(modalOverlay);
+    }
+
+    function loadCategories(posts) {
+        const categoriesList = document.getElementById('categories-list');
+        const footerCategories = document.getElementById('footer-categories');
+        
+        // Get unique categories
+        const categories = [...new Set(posts.map(post => post.category))];
+        
+        if (categoriesList) {
+            categoriesList.innerHTML = categories.map(category => `
+                <li><a href="#" data-category="${escapeHtml(category)}">${escapeHtml(category)}</a></li>
+            `).join('');
+        }
+        
+        if (footerCategories) {
+            footerCategories.innerHTML = categories.slice(0, 4).map(category => `
+                <li><a href="#" data-category="${escapeHtml(category)}">${escapeHtml(category)}</a></li>
+            `).join('');
+        }
+        
+        // Add category filter events
+        document.querySelectorAll('[data-category]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const category = this.getAttribute('data-category');
+                // For now, just show an alert - you can implement filtering later
+                alert(`Filter by category: ${category}`);
+            });
+        });
+    }
+
+    function loadArchive(posts) {
+        const archiveContent = document.getElementById('archive-content');
+        if (!archiveContent) return;
+        
+        // Group by month for current year
+        const currentYear = new Date().getFullYear();
+        const yearPosts = posts.filter(post => new Date(post.date).getFullYear() === currentYear);
+        
+        const postsByMonth = {};
+        yearPosts.forEach(post => {
+            const date = new Date(post.date);
+            const month = date.toLocaleString('default', { month: 'long' });
+            
+            if (!postsByMonth[month]) postsByMonth[month] = [];
+            postsByMonth[month].push(post);
+        });
+
+        archiveContent.innerHTML = Object.keys(postsByMonth).map(month => {
+            const monthPosts = postsByMonth[month];
+            return `
+                <div class="month-section">
+                    <h3 class="month-title">${month} ${currentYear}</h3>
+                    <ul class="post-list">
+                        ${monthPosts.map(post => `
+                            <li><a href="#" data-post-id="${post.id}">${escapeHtml(post.title)}</a></li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }).join('');
+        
+        // Add click events to archive links
+        document.querySelectorAll('.post-list a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const postId = this.getAttribute('data-post-id');
+                // Find the post in all loaded posts
+                const allPosts = Array.from(document.querySelectorAll('.post-card')).map(card => {
+                    return {
+                        id: parseInt(card.getAttribute('data-post-id')),
+                        title: card.querySelector('h3').textContent,
+                        excerpt: card.querySelector('p').textContent
+                    };
+                });
+                const post = allPosts.find(p => p.id === parseInt(postId));
+                if (post) {
+                    alert(`Archive link clicked: ${post.title}\n\nFull post content would appear here.`);
+                }
+            });
+        });
+    }
+
+    function initializeSearch(posts) {
+        const searchBtn = document.querySelector('.search-btn');
+        const searchBox = document.querySelector('.search-box');
+
+        if (searchBtn && searchBox) {
+            searchBtn.addEventListener('click', function() {
+                performSearch(posts);
+            });
+
+            searchBox.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch(posts);
+                }
+            });
+        }
+    }
+
+    function performSearch(posts) {
+        const searchTerm = document.querySelector('.search-box').value.toLowerCase().trim();
+        if (searchTerm) {
+            const results = posts.filter(post => 
+                post.title.toLowerCase().includes(searchTerm) ||
+                post.excerpt.toLowerCase().includes(searchTerm) ||
+                post.category.toLowerCase().includes(searchTerm)
+            );
+            
+            if (results.length === 0) {
+                alert('No posts found for: ' + searchTerm);
+            } else {
+                loadFeaturedPosts(results);
+                document.querySelector('.section-title').textContent = `Search Results for "${searchTerm}"`;
+            }
+        } else {
+            alert('Please enter a search term');
+        }
+    }
+
+    function initializeMobileNavigation() {
+        const navToggle = document.querySelector('.nav-toggle');
+        const nav = document.querySelector('nav');
+
+        if (navToggle && nav) {
+            navToggle.addEventListener('click', function() {
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !isExpanded);
+                nav.classList.toggle('active');
+            });
+        }
+    }
+
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function getFallbackPosts() {
+        return [
+            {
+                id: 1,
+                title: "Getting Started with Programming",
+                excerpt: "Absolute beginner's guide to starting your coding journey.",
+                content: "<h2>Welcome to Programming!</h2><p>This is fallback content. The actual JSON files should load when deployed to GitHub Pages.</p>",
+                category: "Getting Started",
+                skillLevel: "beginner",
+                date: "2023-11-15",
+                readTime: "8 min read",
+                icon: "👋"
+            },
+            {
+                id: 2,
+                title: "Python Basics",
+                excerpt: "Learn Python fundamentals with hands-on examples.",
+                content: "<h2>Python Basics</h2><p>This is fallback content.</p>",
+                category: "Python Basics",
+                skillLevel: "beginner",
+                date: "2023-11-10",
+                readTime: "12 min read",
+                icon: "🐍"
+            }
+        ];
+    }
+
+    // Add hover effects
+    document.addEventListener('mouseover', function(e) {
+        if (e.target.closest('.post-card')) {
+            const card = e.target.closest('.post-card');
+            card.style.transform = 'translateY(-5px)';
+        }
+    });
+
+    document.addEventListener('mouseout', function(e) {
+        if (e.target.closest('.post-card')) {
+            const card = e.target.closest('.post-card');
+            card.style.transform = 'translateY(0)';
+        }
+    });
+
+    console.log('Blog script loaded successfully');
+</script>
 </body>
 </html>

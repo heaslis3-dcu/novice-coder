@@ -1,5 +1,4 @@
-
-// js/main.js - Main application logic
+// js/main.js - Fixed version with better error handling
 
 class BlogStore {
     constructor() {
@@ -39,29 +38,24 @@ const Security = {
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
-    },
-
-    escapeRegex(str) {
-        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 };
 
 // Initialize the blog
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing blog...');
     initializeBlog();
 });
 
 async function initializeBlog() {
     try {
+        console.log('Starting blog initialization...');
         showLoading();
         
-        // Load blog data from GitHub CMS or fallback
-        let posts;
-        if (window.githubCMS) {
-            posts = await window.githubCMS.getPosts();
-        } else {
-            posts = getLocalFallbackPosts();
-        }
+        // Use fallback posts for now to test functionality
+        const posts = getLocalFallbackPosts();
+        
+        console.log('Posts loaded:', posts);
         
         blogStore.setState({
             posts: posts,
@@ -74,13 +68,16 @@ async function initializeBlog() {
         
     } catch (error) {
         console.error('Error initializing blog:', error);
-        showError('Failed to load blog content. Please check your connection.');
+        showError('Failed to load blog content: ' + error.message);
         hideLoading();
     }
 }
 
 function renderBlog() {
+    console.log('Rendering blog...');
     const state = blogStore.state;
+    console.log('Current state:', state);
+    
     loadFeaturedPosts(state.posts);
     loadCategories(state.categories);
     loadArchive(state.posts);
@@ -91,13 +88,20 @@ function renderBlog() {
 }
 
 function loadFeaturedPosts(posts) {
+    console.log('Loading featured posts:', posts);
     const postsGrid = document.getElementById('posts-grid');
+    
+    if (!postsGrid) {
+        console.error('Posts grid element not found!');
+        return;
+    }
+
     const recentPosts = posts.slice(0, 6);
 
     postsGrid.innerHTML = recentPosts.map(post => `
         <article class="post-card" data-post-id="${post.id}" role="article" aria-labelledby="post-title-${post.id}" tabindex="0">
             <div class="card-image" aria-hidden="true">
-                <span>${getPostIcon(post.category)}</span>
+                <span>${post.icon || getPostIcon(post.category)}</span>
             </div>
             <div class="card-content">
                 <div>
@@ -114,10 +118,16 @@ function loadFeaturedPosts(posts) {
         </article>
     `).join('');
 
+    console.log('Posts grid updated with', recentPosts.length, 'posts');
+
     // Add event listeners to post cards
-    document.querySelectorAll('.post-card').forEach(card => {
+    const postCards = document.querySelectorAll('.post-card');
+    console.log('Found post cards:', postCards.length);
+    
+    postCards.forEach(card => {
         card.addEventListener('click', handlePostClick);
         card.addEventListener('keydown', handlePostKeydown);
+        console.log('Event listeners added to card:', card.getAttribute('data-post-id'));
     });
 }
 
@@ -134,28 +144,28 @@ function getPostIcon(category) {
 }
 
 function handlePostClick(event) {
+    console.log('Card clicked!');
     const postId = this.getAttribute('data-post-id');
+    console.log('Post ID:', postId);
     viewPost(postId);
 }
 
 function handlePostKeydown(event) {
     if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
+        console.log('Card keyboard activated!');
         const postId = this.getAttribute('data-post-id');
         viewPost(postId);
     }
 }
 
 function viewPost(postId) {
+    console.log('Viewing post:', postId);
     const post = blogStore.state.posts.find(p => p.id === parseInt(postId));
     if (post) {
-        // In a real implementation, this would show a modal or navigate
-        alert(`Viewing post: ${post.title}\n\nThis would show the full post content in a real implementation.`);
-        
-        // Track analytics
-        if (typeof window.analytics !== 'undefined') {
-            window.analytics.trackPostView(postId);
-        }
+        alert(`Viewing: ${post.title}\n\nThis would show the full post content in a real implementation.\n\nPost ID: ${postId}`);
+    } else {
+        console.error('Post not found:', postId);
     }
 }
 
@@ -163,13 +173,17 @@ function loadCategories(categories) {
     const categoriesList = document.getElementById('categories-list');
     const footerCategories = document.getElementById('footer-categories');
 
-    categoriesList.innerHTML = categories.map(category => `
-        <li><a href="#" data-category="${category}">${Security.sanitizeHTML(category)}</a></li>
-    `).join('');
+    if (categoriesList) {
+        categoriesList.innerHTML = categories.map(category => `
+            <li><a href="#" data-category="${category}">${Security.sanitizeHTML(category)}</a></li>
+        `).join('');
+    }
 
-    footerCategories.innerHTML = categories.slice(0, 4).map(category => `
-        <li><a href="#" data-category="${category}">${Security.sanitizeHTML(category)}</a></li>
-    `).join('');
+    if (footerCategories) {
+        footerCategories.innerHTML = categories.slice(0, 4).map(category => `
+            <li><a href="#" data-category="${category}">${Security.sanitizeHTML(category)}</a></li>
+        `).join('');
+    }
 
     // Add category filter event listeners
     document.querySelectorAll('[data-category]').forEach(link => {
@@ -230,35 +244,39 @@ function loadArchive(posts) {
     const yearList = document.getElementById('year-list');
     const archiveContent = document.getElementById('archive-content');
 
-    // Get unique years from posts
-    const years = [...new Set(posts.map(post => new Date(post.date).getFullYear()))].sort((a, b) => b - a);
+    if (yearList) {
+        // Get unique years from posts
+        const years = [...new Set(posts.map(post => new Date(post.date).getFullYear()))].sort((a, b) => b - a);
 
-    yearList.innerHTML = years.map(year => `
-        <li><a href="#" data-year="${year}" class="${year === 2023 ? 'active' : ''}">${year}</a></li>
-    `).join('');
+        yearList.innerHTML = years.map(year => `
+            <li><a href="#" data-year="${year}" class="${year === 2023 ? 'active' : ''}">${year}</a></li>
+        `).join('');
+
+        // Add year filter event listeners
+        document.querySelectorAll('[data-year]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const year = this.getAttribute('data-year');
+                
+                // Update active state
+                document.querySelectorAll('[data-year]').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                loadYearArchive(year, posts);
+            });
+        });
+    }
 
     // Load archive content for current year
     loadYearArchive(2023, posts);
-
-    // Add year filter event listeners
-    document.querySelectorAll('[data-year]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const year = this.getAttribute('data-year');
-            
-            // Update active state
-            document.querySelectorAll('[data-year]').forEach(item => {
-                item.classList.remove('active');
-            });
-            this.classList.add('active');
-            
-            loadYearArchive(year, posts);
-        });
-    });
 }
 
 function loadYearArchive(year, posts) {
     const archiveContent = document.getElementById('archive-content');
+    if (!archiveContent) return;
+    
     const yearPosts = posts.filter(post => new Date(post.date).getFullYear() == year);
     
     if (yearPosts.length === 0) {
@@ -322,7 +340,8 @@ function performSearch() {
             post.title.toLowerCase().includes(searchTerm) ||
             post.excerpt.toLowerCase().includes(searchTerm) ||
             post.category.toLowerCase().includes(searchTerm) ||
-            (post.content && post.content.toLowerCase().includes(searchTerm))
+            (post.content && post.content.toLowerCase().includes(searchTerm)) ||
+            (post.tags && post.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
         );
 
         if (results.length === 0) {
@@ -400,6 +419,7 @@ function hideLoading() {
 }
 
 function showError(message) {
+    console.error('Blog error:', message);
     const errorBoundary = document.getElementById('error-boundary');
     if (errorBoundary) {
         errorBoundary.querySelector('p').textContent = message;
@@ -420,42 +440,49 @@ function getLocalFallbackPosts() {
             id: 1,
             title: "Getting Started with Programming",
             excerpt: "Absolute beginner's guide to starting your coding journey. Learn what programming is and how to choose your first language.",
+            content: "This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.",
             category: "Getting Started",
             skillLevel: "beginner",
             date: "2023-11-15",
             readTime: "8 min read",
             slug: "getting-started-programming",
             published: true,
-            content: "# Getting Started with Programming\n\nWelcome to your coding journey!"
+            tags: ["programming", "beginner", "tutorial"],
+            icon: "👋"
         },
         {
             id: 2,
             title: "Python Basics: Your First Program",
             excerpt: "Learn Python fundamentals with hands-on examples. Perfect for complete beginners with no prior experience.",
+            content: "This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.",
             category: "Python Basics",
             skillLevel: "beginner",
             date: "2023-11-10",
             readTime: "12 min read",
             slug: "python-basics-first-program",
             published: true,
-            content: "# Python Basics\n\nLearn Python step by step."
+            tags: ["python", "basics", "tutorial"],
+            icon: "🐍"
         },
         {
             id: 3,
             title: "HTML & CSS: Build Your First Website",
             excerpt: "Step-by-step guide to creating your first webpage. No prior web development knowledge required.",
+            content: "This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.",
             category: "Web Development",
             skillLevel: "beginner",
             date: "2023-11-05",
             readTime: "15 min read",
             slug: "html-css-first-website",
             published: true,
-            content: "# HTML & CSS Basics\n\nBuild your first website."
+            tags: ["html", "css", "web development"],
+            icon: "🌐"
         }
     ];
 }
 
-// Export for testing
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { blogStore, initializeBlog };
-}
+// Add global error handler
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
+    showError('A JavaScript error occurred: ' + e.message);
+});

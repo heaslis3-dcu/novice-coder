@@ -445,6 +445,16 @@ nav a[aria-current="page"]::after {
     color: var(--accent);
 }
 
+.skill-level.intermediate {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+}
+
+.skill-level.advanced {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
 /* Archive Section */
 .archive-section {
     background-color: var(--secondary);

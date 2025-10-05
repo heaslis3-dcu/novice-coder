@@ -1,21 +1,24 @@
+// config.example.js - Safe configuration template
+// Copy this to config.js and fill in your details
+
 const CONFIG = {
     // Site Information
     SITE_NAME: "The Novice Coder",
     SITE_DESCRIPTION: "Beginner-friendly programming tutorials and coding journey",
     SITE_URL: "https://heaslis3-dcu.github.io/the-novice-coder-blog",
-    AUTHOR: "Your Name",
+    AUTHOR: "heaslis3-dcu",
     
-    // GitHub Configuration (Safe - these are public)
-    GITHUB_USERNAME: "yourusername",
-    REPO_NAME: "the-novice-coder-blog",
+    // GitHub Configuration
+    GITHUB_USERNAME: "heaslis3-dcu",
+    REPO_NAME: "novice-coder",
     REPO_BRANCH: "main",
     
-    // Social Media (Optional)
-    SOCIAL: {
-        github: "https://github.com/heaslis3-dcu",
-        linkedin: "https://linkedin.com/in/sean-heaslip2019",
-        twitter: "",
-        youtube: ""
+    // Content Settings
+    CONTENT: {
+        postsPerPage: 6,
+        excerptLength: 150,
+        defaultImage: "default-card.jpg",
+        postsDirectory: "posts"
     },
     
     // Feature Flags
@@ -23,14 +26,8 @@ const CONFIG = {
         search: true,
         categories: true,
         archive: true,
+        skillLevels: true,
         analytics: false
-    },
-    
-    // Content Settings
-    CONTENT: {
-        postsPerPage: 6,
-        excerptLength: 150,
-        defaultImage: "default-card.jpg"
     }
 };
 

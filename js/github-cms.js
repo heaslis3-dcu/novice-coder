@@ -1,7 +1,6 @@
-
-// js/github-cms.js - Safe GitHub-based content management
+// js/github-cms.js - GitHub-based JSON content management
 const GITHUB_USERNAME = 'heaslis3-dcu';
-const REPO_NAME = 'the-novice-coder-blog';
+const REPO_NAME = 'novice-coder';
 const REPO_BRANCH = 'main';
 
 class GitHubCMS {
@@ -15,7 +14,7 @@ class GitHubCMS {
         try {
             console.log('Loading posts from GitHub...');
             
-            // Load posts metadata
+            // Load posts metadata first
             const metadataResponse = await fetch(`${this.rawBaseURL}/data/posts-metadata.json`);
             if (!metadataResponse.ok) {
                 throw new Error(`HTTP error! status: ${metadataResponse.status}`);
@@ -24,14 +23,13 @@ class GitHubCMS {
             const metadata = await metadataResponse.json();
             const postsWithContent = [];
             
-            // Load content for each post
+            // Load individual post JSON files
             for (const postMeta of metadata.posts) {
                 if (postMeta.published !== false) {
-                    const content = await this.getPostContent(postMeta.slug);
-                    postsWithContent.push({
-                        ...postMeta,
-                        content: content
-                    });
+                    const postData = await this.getPostData(postMeta.slug);
+                    if (postData) {
+                        postsWithContent.push(postData);
+                    }
                 }
             }
             
@@ -45,7 +43,7 @@ class GitHubCMS {
         }
     }
 
-    async getPostContent(slug) {
+    async getPostData(slug) {
         try {
             const cacheKey = `post-${slug}`;
             const cached = this.cache.get(cacheKey);
@@ -54,24 +52,43 @@ class GitHubCMS {
                 return cached.data;
             }
 
-            const response = await fetch(`${this.rawBaseURL}/posts/${slug}.md`);
+            const response = await fetch(`${this.rawBaseURL}/posts/${slug}.json`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
-            const content = await response.text();
+            const postData = await response.json();
+            
+            // Validate required fields
+            if (!postData.id || !postData.title) {
+                throw new Error('Invalid post data structure');
+            }
             
             // Cache the result
             this.cache.set(cacheKey, {
-                data: content,
+                data: postData,
                 timestamp: Date.now()
             });
             
-            return content;
+            return postData;
         } catch (error) {
             console.error(`Error loading post ${slug}:`, error);
-            return '# Post content not available\n\nPlease check your internet connection.';
+            return null;
         }
+    }
+
+    async getPostBySlug(slug) {
+        return await this.getPostData(slug);
+    }
+
+    async getPostsByCategory(category) {
+        const allPosts = await this.getPosts();
+        return allPosts.filter(post => post.category === category);
+    }
+
+    async getPostsBySkillLevel(level) {
+        const allPosts = await this.getPosts();
+        return allPosts.filter(post => post.skillLevel === level);
     }
 
     getLocalFallbackPosts() {
@@ -80,13 +97,15 @@ class GitHubCMS {
                 id: 1,
                 title: "Welcome to The Novice Coder",
                 excerpt: "This is a fallback post when GitHub is unavailable. The blog will load normally when connected.",
-                content: "# Welcome\n\nThis content is loaded locally. Check your internet connection to load the latest posts from GitHub.",
+                content: "This content is loaded locally. Check your internet connection to load the latest posts from GitHub.",
                 category: "Getting Started",
                 skillLevel: "beginner",
                 date: new Date().toISOString().split('T')[0],
                 readTime: "1 min read",
                 slug: "welcome-fallback",
-                published: true
+                published: true,
+                tags: ["welcome", "introduction"],
+                icon: "👋"
             }
         ];
     }
@@ -94,6 +113,19 @@ class GitHubCMS {
     clearCache() {
         this.cache.clear();
         console.log('Cache cleared');
+    }
+
+    // Utility method to check if we're online
+    async checkConnection() {
+        try {
+            const response = await fetch(`${this.rawBaseURL}/data/posts-metadata.json`, { 
+                method: 'HEAD',
+                cache: 'no-cache'
+            });
+            return response.ok;
+        } catch {
+            return false;
+        }
     }
 }
 
