@@ -1,1 +1,152 @@
 
+
+## 2. Updated index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>The Novice Coder | Beginner-Friendly Programming Blog</title>
+    <meta name="description" content="Join my coding journey from beginner to developer. Tutorials, projects, and learning experiences for aspiring programmers.">
+    <meta name="keywords" content="beginner programming, learn to code, coding tutorials, web development, python, javascript, coding journey">
+    <meta name="author" content="Your Name">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="The Novice Coder | Beginner Programming Blog">
+    <meta property="og:description" content="Coding tutorials and learning experiences for beginners">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://heaslis3-dcu.github.io/novice-coder">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "The Novice Coder",
+        "description": "Beginner-friendly programming tutorials and coding journey",
+        "url": "https://heaslis3-dcu.github.io/novice-coder",
+        "publisher": {
+            "@type": "Person",
+            "name": "Your Name"
+        }
+    }
+    </script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <span class="logo-icon">🚀</span>
+                <span>The Novice Coder</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#tutorials">Tutorials</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#about">My Journey</a></li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search tutorials...">
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>The Novice Coder</h1>
+            <p>Join my journey from beginner to developer. Sharing tutorials, projects, and lessons learned while learning to code.</p>
+            <a href="#tutorials" class="cta-button">Start Learning</a>
+        </div>
+    </section>
+
+    <!-- Featured Posts -->
+    <section class="container" id="tutorials">
+        <h2 class="section-title">Latest Tutorials</h2>
+        <div class="posts-grid" id="posts-grid">
+            <!-- Posts loaded by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Archive Section -->
+    <section class="archive-section" id="resources">
+        <div class="container">
+            <h2 class="section-title">Learning Resources</h2>
+            <div class="archive-container">
+                <div class="archive-sidebar">
+                    <h3>Categories</h3>
+                    <ul class="categories-list" id="categories-list">
+                        <!-- Loaded by JS -->
+                    </ul>
+
+                    <h3>Skill Level</h3>
+                    <ul class="year-list" id="skill-level-list">
+                        <li><a href="#" data-level="beginner">Beginner</a></li>
+                        <li><a href="#" data-level="intermediate">Intermediate</a></li>
+                        <li><a href="#" data-level="advanced">Advanced</a></li>
+                    </ul>
+                </div>
+
+                <div class="archive-content" id="archive-content">
+                    <!-- Archive content -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>About The Novice Coder</h3>
+                    <p>Documenting my coding journey from complete beginner to professional developer. Sharing the ups, downs, and everything in between.</p>
+                    <div class="social-links">
+                        <a href="https://github.com/yourusername" class="social-icon" target="_blank">GH</a>
+                        <a href="#" class="social-icon" target="_blank">LI</a>
+                        <a href="#" class="social-icon" target="_blank">TW</a>
+                        <a href="#" class="social-icon" target="_blank">YT</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div>
+                        <h4>Learning Paths</h4>
+                        <ul id="footer-categories">
+                            <!-- Loaded by JS -->
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#tutorials">Tutorials</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#resources">Resources</a></li>
+                            <li><a href="#about">My Journey</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 The Novice Coder. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/archive.js"></script>
+</body>
+</html>
