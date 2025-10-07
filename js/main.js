@@ -1,4 +1,11 @@
-// js/main.js - Fixed version with better error handling
+
+/*
+Log console in browser - testing JavaScript file is loading correctly
+// main.js - Add this at the VERY TOP
+console.log('=== MAIN.JS LOADED ===');
+alert('JavaScript is loaded!');
+
+*/
 
 class BlogStore {
     constructor() {
@@ -8,7 +15,7 @@ class BlogStore {
             currentPage: 1,
             searchQuery: '',
             activeCategory: null,
-            activeSkillLevel: 'beginner',
+            activeSkillLevel: null,
             loading: false,
             error: null
         };
@@ -52,8 +59,8 @@ async function initializeBlog() {
         console.log('Starting blog initialization...');
         showLoading();
         
-        // Use fallback posts for now to test functionality
-        const posts = getLocalFallbackPosts();
+        // Load posts from JSON files
+        const posts = await loadPostsFromJSON();
         
         console.log('Posts loaded:', posts);
         
@@ -72,6 +79,141 @@ async function initializeBlog() {
         hideLoading();
     }
 }
+
+//REPLACE loadPostsFromJSON with debug version
+// async function loadPostsFromJSON() {
+//     try {
+//         console.log('=== DEBUG: Starting JSON Load ===');
+        
+//         // Test if metadata file exists
+//         console.log('🔍 Checking metadata file...');
+//         const metadataResponse = await fetch('./data/posts-metadata.json');
+//         console.log('📁 Metadata response status:', metadataResponse.status);
+        
+//         if (!metadataResponse.ok) {
+//             throw new Error(`Metadata failed: ${metadataResponse.status}`);
+//         }
+        
+//         const metadata = await metadataResponse.json();
+//         console.log('✅ Metadata loaded:', metadata);
+        
+//         // Test if we can load individual posts
+//         console.log('🔍 Testing post file loading...');
+//         const testPostResponse = await fetch('./posts/getting-started-programming.json');
+//         console.log('📄 Test post response status:', testPostResponse.status);
+        
+//         if (testPostResponse.ok) {
+//             const testPost = await testPostResponse.json();
+//             console.log('✅ Test post loaded:', testPost.title);
+//         } else {
+//             console.log('❌ Test post failed to load');
+//         }
+        
+//         // Your existing loading code continues here...
+//         const posts = await Promise.all(
+//             metadata.posts.map(async (postMeta) => {
+//                 try {
+//                     console.log(`🔍 Loading: ${postMeta.slug}.json`);
+//                     const postResponse = await fetch(`./posts/${postMeta.slug}.json`);
+//                     console.log(`📄 ${postMeta.slug} status:`, postResponse.status);
+                    
+//                     if (postResponse.ok) {
+//                         const postData = await postResponse.json();
+//                         console.log(`✅ Loaded: ${postData.title}`);
+//                         return {
+//                             ...postMeta,
+//                             ...postData
+//                         };
+//                     } else {
+//                         console.log(`❌ Using fallback for: ${postMeta.slug}`);
+//                         return {
+//                             ...postMeta,
+//                             content: `<p>${postMeta.excerpt}</p><p><em>Full post content coming soon!</em></p>`,
+//                             icon: getPostIcon(postMeta.category),
+//                             tags: postMeta.tags || []
+//                         };
+//                     }
+//                 } catch (error) {
+//                     console.error(`💥 Error loading ${postMeta.slug}:`, error);
+//                     return {
+//                         ...postMeta,
+//                         content: `<p>Error loading post.</p>`,
+//                         icon: getPostIcon(postMeta.category),
+//                         tags: []
+//                     };
+//                 }
+//             })
+//         );
+        
+//         console.log('🎯 Final posts loaded:', posts.length);
+//         console.log('📝 Posts:', posts.map(p => ({ title: p.title, slug: p.slug })));
+        
+//         return posts.filter(post => post.published !== false)
+//                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+//     } catch (error) {
+//         console.error('💥 CRITICAL ERROR in loadPostsFromJSON:', error);
+//         console.log('🔄 Using fallback posts');
+//         return getLocalFallbackPosts();
+//     }
+// }
+
+ 
+async function loadPostsFromJSON() {
+    try {
+        // Load posts metadata - using your current structure
+        const metadataResponse = await fetch('./data/posts-metadata.json');
+        if (!metadataResponse.ok) throw new Error('Failed to load posts metadata');
+        
+        const metadata = await metadataResponse.json();
+        
+        // Your metadata already contains full post info, but we still need to load individual posts for content
+        const posts = await Promise.all(
+            metadata.posts.map(async (postMeta) => {
+                try {
+                    // Try to load the individual post file for full content
+                    const postResponse = await fetch(`./posts/${postMeta.slug}.json`);
+                    if (postResponse.ok) {
+                        const postData = await postResponse.json();
+                        // Merge metadata with post data (post data takes precedence)
+                        return {
+                            ...postMeta, // Your existing metadata
+                            ...postData  // Full post content overrides any metadata fields
+                        };
+                    } else {
+                        // If individual post file doesn't exist, use metadata as fallback
+                        console.log(`Using metadata for post: ${postMeta.slug}`);
+                        return {
+                            ...postMeta,
+                            content: postMeta.content || `<p>${postMeta.excerpt}</p><p><em>Full post content coming soon!</em></p>`,
+                            icon: postMeta.icon || getPostIcon(postMeta.category),
+                            tags: postMeta.tags || []
+                        };
+                    }
+                } catch (error) {
+                    console.error(`Error loading post ${postMeta.slug}:`, error);
+                    // Fallback to metadata only
+                    return {
+                        ...postMeta,
+                        content: postMeta.content || `<p>${postMeta.excerpt}</p><p><em>Full post content coming soon!</em></p>`,
+                        icon: postMeta.icon || getPostIcon(postMeta.category),
+                        tags: postMeta.tags || []
+                    };
+                }
+            })
+        );
+        
+        return posts
+            .filter(post => post.published !== false)
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+    } catch (error) {
+        console.error('Error loading posts from JSON:', error);
+        // Fallback to local posts if JSON loading fails
+        return getLocalFallbackPosts();
+    }
+}
+
 
 function renderBlog() {
     console.log('Rendering blog...');
@@ -158,14 +300,420 @@ function handlePostKeydown(event) {
         viewPost(postId);
     }
 }
+//Replace viewPost code for debugging in browser
+
+// function viewPost(postId) {
+//     console.log('=== DEBUG VIEWPOST START ===');
+//     console.log('Post ID clicked:', postId);
+    
+//     const post = blogStore.state.posts.find(p => p.id === parseInt(postId));
+    
+//     if (post) {
+//         console.log('Post found:', post.title);
+//         console.log('Content type:', typeof post.content);
+//         console.log('Content value:', post.content);
+        
+//         // Check if content is array and show first item
+//         if (Array.isArray(post.content)) {
+//             console.log('First content item:', post.content[0]);
+//         }
+        
+//         showPostModal(post);
+//     } else {
+//         console.log('Post NOT found!');
+//     }
+//     console.log('=== DEBUG VIEWPOST END ===');
+// }
+
+/*
+// DEBUG viewPost
+function viewPost(postId) {
+    alert('DEBUG: Clicked post ID: ' + postId);
+    
+    const post = blogStore.state.posts.find(p => p.id === parseInt(postId));
+    
+    if (post) {
+        alert('DEBUG: Found post: ' + post.title + '\nContent type: ' + typeof post.content);
+        showPostModal(post);
+    } else {
+        alert('DEBUG: Post not found!');
+    }
+}
+*/
 
 function viewPost(postId) {
     console.log('Viewing post:', postId);
     const post = blogStore.state.posts.find(p => p.id === parseInt(postId));
     if (post) {
-        alert(`Viewing: ${post.title}\n\nThis would show the full post content in a real implementation.\n\nPost ID: ${postId}`);
+        showPostModal(post);
     } else {
         console.error('Post not found:', postId);
+        showError('Post not found. Please try again.');
+    }
+}
+
+/* Updated on 7th October 
+FIXED - Checks if content is a string or array
+HANDLES: 
+[a] HTML Strings (uses original post) and 
+[b] Structured Arrays: converts to HTML
+IN folder posts/
+Trialing
+*/
+function showPostModal(post) {
+    console.log('🔄 Showing modal for post:', post.title);
+    console.log('📝 Content type:', typeof post.content);
+    console.log('📝 Content value:', post.content);
+    
+    // Close any existing modal first
+    closePostModal();
+    
+    // Render content based on format
+    const renderedContent = renderContent(post.content);
+    console.log('🎨 Rendered content:', renderedContent);
+    
+    // Create modal HTML and display full post content
+    const modalHTML = `
+        <div class="modal-overlay" id="post-modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Close modal">×</button>
+                <article class="post-full">
+                    <header class="post-header">
+                        <div class="post-categories">
+                            <span class="category-tag">${Security.sanitizeHTML(post.category)}</span>
+                            <span class="skill-level ${post.skillLevel}">${post.skillLevel}</span>
+                        </div>
+                        <h1 id="modal-title">${Security.sanitizeHTML(post.title)}</h1>
+                        <div class="post-meta">
+                            <time datetime="${post.date}">${formatDate(post.date)}</time>
+                            <span>${post.readTime}</span>
+                        </div>
+                    </header>
+                    <div class="post-body">
+                        ${renderedContent}
+                    </div>
+                    <footer class="post-footer">
+                        <div class="post-tags">
+                            ${post.tags ? post.tags.map(tag => `<span class="post-tag">${Security.sanitizeHTML(tag)}</span>`).join('') : ''}
+                        </div>
+                    </footer>
+                </article>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to page
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Add CSS for modal if not already present
+    addModalStyles();
+    
+    // Add event listeners for closing modal
+    const modal = document.getElementById('post-modal');
+    const closeBtn = modal.querySelector('.modal-close');
+    
+    closeBtn.addEventListener('click', closePostModal);
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) closePostModal();
+    });
+    
+    // Add keyboard support
+    document.addEventListener('keydown', handleModalKeydown);
+    
+    // Focus management for accessibility
+    closeBtn.focus();
+    
+    // Prevent body scrolling
+    document.body.style.overflow = 'hidden';
+}
+
+function renderContent(content) {
+    console.log('🔍 Rendering content:', content);
+    
+    // If content is already HTML string, return it directly
+    if (typeof content === 'string') {
+        console.log('📄 Processing as HTML string');
+        return content;
+    }
+    
+    // If content is an array of structured objects, convert to HTML
+    if (Array.isArray(content)) {
+        console.log('🔄 Processing as structured array');
+        const result = content.map(item => {
+            console.log('📦 Processing item:', item);
+            
+            if (!item || typeof item !== 'object') {
+                console.warn('⚠️ Invalid item:', item);
+                return '';
+            }
+            
+            switch(item.type) {
+                case 'heading':
+                    return `<h${item.level}>${Security.sanitizeHTML(item.text)}</h${item.level}>`;
+                case 'paragraph':
+                    return `<p>${Security.sanitizeHTML(item.text)}</p>`;
+                case 'code':
+                    return `<pre><code class="language-${item.language || 'text'}">${Security.sanitizeHTML(item.code)}</code></pre>`;
+                case 'list':
+                    const tag = item.style === 'ordered' ? 'ol' : 'ul';
+                    const items = (item.items || []).map(i => `<li>${Security.sanitizeHTML(i)}</li>`).join('');
+                    return `<${tag}>${items}</${tag}>`;
+                case 'image':
+                    return `<figure><img src="${item.src}" alt="${Security.sanitizeHTML(item.alt || '')}">${item.caption ? `<figcaption>${Security.sanitizeHTML(item.caption)}</figcaption>` : ''}</figure>`;
+                case 'quote':
+                    return `<blockquote>${Security.sanitizeHTML(item.text)}${item.author ? `<cite>— ${Security.sanitizeHTML(item.author)}</cite>` : ''}</blockquote>`;
+                default:
+                    console.warn('❌ Unknown content type:', item.type);
+                    return `<p>Unknown content type: ${item.type}</p>`;
+            }
+        }).join('\n');
+        
+        console.log('✅ Final rendered content:', result);
+        return result;
+    }
+    
+    // Fallback for unexpected formats
+    console.error('❌ Unsupported content format:', typeof content, content);
+    return '<p>Content format not supported.</p>';
+}
+
+function renderContent(content) {
+    // If content is already HTML string, return it directly
+    if (typeof content === 'string') {
+        return content;
+    }
+    
+    // If content is an array of structured objects, convert to HTML
+    if (Array.isArray(content)) {
+        return content.map(item => {
+            switch(item.type) {
+                case 'heading':
+                    return `<h${item.level}>${Security.sanitizeHTML(item.text)}</h${item.level}>`;
+                case 'paragraph':
+                    return `<p>${Security.sanitizeHTML(item.text)}</p>`;
+                case 'code':
+                    return `<pre><code class="language-${item.language}">${Security.sanitizeHTML(item.code)}</code></pre>`;
+                case 'list':
+                    const tag = item.style === 'ordered' ? 'ol' : 'ul';
+                    const items = item.items.map(i => `<li>${Security.sanitizeHTML(i)}</li>`).join('');
+                    return `<${tag}>${items}</${tag}>`;
+                case 'image':
+                    return `<figure><img src="${item.src}" alt="${Security.sanitizeHTML(item.alt)}">${item.caption ? `<figcaption>${Security.sanitizeHTML(item.caption)}</figcaption>` : ''}</figure>`;
+                case 'quote':
+                    return `<blockquote>${Security.sanitizeHTML(item.text)}${item.author ? `<cite>— ${Security.sanitizeHTML(item.author)}</cite>` : ''}</blockquote>`;
+                default:
+                    return '';
+            }
+        }).join('\n');
+    }
+    
+    // Fallback for unexpected formats
+    return '<p>Content format not supported.</p>';
+}
+
+function addModalStyles() {
+    // Only add styles if they haven't been added already
+    if (document.getElementById('modal-styles')) return;
+    
+    const modalStyles = `
+        <style id="modal-styles">
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(10, 25, 47, 0.95);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                padding: 20px;
+            }
+            
+            .modal-content {
+                background: var(--secondary);
+                border: 1px solid rgba(100, 255, 218, 0.3);
+                border-radius: var(--border-radius);
+                max-width: 800px;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+                position: relative;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), var(--glow);
+            }
+            
+            .modal-close {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: rgba(100, 255, 218, 0.1);
+                border: 1px solid var(--accent);
+                color: var(--accent);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                font-size: 20px;
+                cursor: pointer;
+                z-index: 1001;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: var(--transition);
+            }
+            
+            .modal-close:hover {
+                background: var(--accent);
+                color: var(--primary);
+            }
+            
+            .post-full {
+                padding: 40px;
+            }
+            
+            .post-header {
+                margin-bottom: 2rem;
+                border-bottom: 1px solid rgba(100, 255, 218, 0.2);
+                padding-bottom: 1.5rem;
+            }
+            
+            .post-categories {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .post-full .post-header h1 {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+                color: var(--text-primary);
+                line-height: 1.2;
+            }
+            
+            .post-meta {
+                display: flex;
+                gap: 20px;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }
+            
+            .post-body {
+                line-height: 1.7;
+                font-size: 1.1rem;
+            }
+            
+            .post-body h1, .post-body h2, .post-body h3, .post-body h4 {
+                color: var(--accent);
+                margin: 2rem 0 1rem 0;
+            }
+            
+            .post-body h1 { font-size: 2rem; }
+            .post-body h2 { font-size: 1.75rem; }
+            .post-body h3 { font-size: 1.5rem; }
+            .post-body h4 { font-size: 1.25rem; }
+            
+            .post-body p {
+                margin-bottom: 1.5rem;
+            }
+            
+            .post-body ul, .post-body ol {
+                margin-bottom: 1.5rem;
+                padding-left: 2rem;
+            }
+            
+            .post-body li {
+                margin-bottom: 0.5rem;
+            }
+            
+            .post-body code {
+                background: rgba(100, 255, 218, 0.1);
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-family: 'Courier New', monospace;
+                color: var(--accent);
+            }
+            
+            .post-body pre {
+                background: var(--primary);
+                border: 1px solid rgba(100, 255, 218, 0.2);
+                border-radius: var(--border-radius);
+                padding: 1.5rem;
+                overflow-x: auto;
+                margin: 1.5rem 0;
+            }
+            
+            .post-body pre code {
+                background: none;
+                padding: 0;
+                color: var(--text-primary);
+            }
+            
+            .post-body a {
+                color: var(--accent);
+                text-decoration: none;
+                border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+                transition: var(--transition);
+            }
+            
+            .post-body a:hover {
+                border-bottom-color: var(--accent);
+            }
+            
+            .post-footer {
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(100, 255, 218, 0.2);
+            }
+            
+            .post-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .post-tag {
+                background: rgba(100, 255, 218, 0.1);
+                color: var(--accent);
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                border: 1px solid rgba(100, 255, 218, 0.2);
+            }
+            
+            @media (max-width: 768px) {
+                .modal-content {
+                    margin: 10px;
+                    max-height: 95vh;
+                }
+                
+                .post-full {
+                    padding: 20px;
+                }
+                
+                .post-full .post-header h1 {
+                    font-size: 1.75rem;
+                }
+            }
+        </style>
+    `;
+    
+    document.head.insertAdjacentHTML('beforeend', modalStyles);
+}
+
+function closePostModal() {
+    const modal = document.getElementById('post-modal');
+    if (modal) {
+        modal.remove();
+        document.removeEventListener('keydown', handleModalKeydown);
+        document.body.style.overflow = '';
+    }
+}
+
+function handleModalKeydown(e) {
+    if (e.key === 'Escape') {
+        closePostModal();
     }
 }
 
@@ -175,7 +723,7 @@ function loadCategories(categories) {
 
     if (categoriesList) {
         categoriesList.innerHTML = categories.map(category => `
-            <li><a href="#" data-category="${category}">${Security.sanitizeHTML(category)}</a></li>
+            <li><a href="#" data-category="${category}" class="${blogStore.state.activeCategory === category ? 'active' : ''}">${Security.sanitizeHTML(category)}</a></li>
         `).join('');
     }
 
@@ -220,10 +768,20 @@ function filterByCategory(category) {
     
     blogStore.setState({
         activeCategory: category,
-        posts: filteredPosts
+        activeSkillLevel: null
+    });
+    
+    // Update UI active states
+    document.querySelectorAll('[data-category]').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-category') === category);
+    });
+    
+    document.querySelectorAll('[data-level]').forEach(item => {
+        item.classList.remove('active');
     });
     
     loadFeaturedPosts(filteredPosts);
+    updateSectionTitle(category ? `Category: ${category}` : 'Featured Posts');
 }
 
 function filterBySkillLevel(level) {
@@ -234,10 +792,27 @@ function filterBySkillLevel(level) {
     
     blogStore.setState({
         activeSkillLevel: level,
-        posts: filteredPosts
+        activeCategory: null
+    });
+    
+    // Update UI active states
+    document.querySelectorAll('[data-level]').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-level') === level);
+    });
+    
+    document.querySelectorAll('[data-category]').forEach(item => {
+        item.classList.remove('active');
     });
     
     loadFeaturedPosts(filteredPosts);
+    updateSectionTitle(level ? `Skill Level: ${level}` : 'Featured Posts');
+}
+
+function updateSectionTitle(title) {
+    const sectionTitle = document.querySelector('.section-title');
+    if (sectionTitle) {
+        sectionTitle.textContent = title;
+    }
 }
 
 function loadArchive(posts) {
@@ -249,7 +824,7 @@ function loadArchive(posts) {
         const years = [...new Set(posts.map(post => new Date(post.date).getFullYear()))].sort((a, b) => b - a);
 
         yearList.innerHTML = years.map(year => `
-            <li><a href="#" data-year="${year}" class="${year === 2023 ? 'active' : ''}">${year}</a></li>
+            <li><a href="#" data-year="${year}" class="${year === new Date().getFullYear() ? 'active' : ''}">${year}</a></li>
         `).join('');
 
         // Add year filter event listeners
@@ -270,7 +845,8 @@ function loadArchive(posts) {
     }
 
     // Load archive content for current year
-    loadYearArchive(2023, posts);
+    const currentYear = new Date().getFullYear();
+    loadYearArchive(currentYear, posts);
 }
 
 function loadYearArchive(year, posts) {
@@ -294,8 +870,14 @@ function loadYearArchive(year, posts) {
         postsByMonth[month].push(post);
     });
 
-    archiveContent.innerHTML = Object.keys(postsByMonth).map(month => {
-        const posts = postsByMonth[month];
+    // Sort months chronologically
+    const sortedMonths = Object.keys(postsByMonth).sort((a, b) => {
+        const monthOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return monthOrder.indexOf(b) - monthOrder.indexOf(a);
+    });
+
+    archiveContent.innerHTML = sortedMonths.map(month => {
+        const posts = postsByMonth[month].sort((a, b) => new Date(b.date) - new Date(a.date));
         return `
             <div class="month-section">
                 <h3 class="month-title">${month} ${year}</h3>
@@ -348,17 +930,33 @@ function performSearch() {
             alert(`No posts found for "${searchTerm}".`);
         } else {
             // Update UI with search results
-            blogStore.setState({ posts: results, searchQuery: searchTerm });
+            blogStore.setState({ 
+                posts: results, 
+                searchQuery: searchTerm,
+                activeCategory: null,
+                activeSkillLevel: null
+            });
             loadFeaturedPosts(results);
             
-            // Update section title
-            const sectionTitle = document.querySelector('.section-title');
-            if (sectionTitle) {
-                sectionTitle.textContent = `Search Results for "${searchTerm}"`;
-            }
+            // Update section title and clear active filters
+            updateSectionTitle(`Search Results for "${searchTerm}"`);
+            document.querySelectorAll('[data-category], [data-level]').forEach(item => {
+                item.classList.remove('active');
+            });
         }
     } else {
-        alert('Please enter a search term.');
+        // Reset to all posts if search is empty
+        blogStore.setState({ 
+            posts: blogStore.state.posts, 
+            searchQuery: '',
+            activeCategory: null,
+            activeSkillLevel: null
+        });
+        loadFeaturedPosts(blogStore.state.posts);
+        updateSectionTitle('Featured Posts');
+        document.querySelectorAll('[data-category], [data-level]').forEach(item => {
+            item.classList.remove('active');
+        });
     }
 }
 
@@ -423,14 +1021,14 @@ function showError(message) {
     const errorBoundary = document.getElementById('error-boundary');
     if (errorBoundary) {
         errorBoundary.querySelector('p').textContent = message;
-        errorBoundary.hidden = false;
+        errorBoundary.style.display = 'block';
     }
 }
 
 function hideError() {
     const errorBoundary = document.getElementById('error-boundary');
     if (errorBoundary) {
-        errorBoundary.hidden = true;
+        errorBoundary.style.display = 'none';
     }
 }
 
@@ -440,7 +1038,7 @@ function getLocalFallbackPosts() {
             id: 1,
             title: "Getting Started with Programming",
             excerpt: "Absolute beginner's guide to starting your coding journey. Learn what programming is and how to choose your first language.",
-            content: "This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.",
+            content: "<p>This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.</p>",
             category: "Getting Started",
             skillLevel: "beginner",
             date: "2023-11-15",
@@ -454,7 +1052,7 @@ function getLocalFallbackPosts() {
             id: 2,
             title: "Python Basics: Your First Program",
             excerpt: "Learn Python fundamentals with hands-on examples. Perfect for complete beginners with no prior experience.",
-            content: "This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.",
+            content: "<p>This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.</p>",
             category: "Python Basics",
             skillLevel: "beginner",
             date: "2023-11-10",
@@ -468,7 +1066,7 @@ function getLocalFallbackPosts() {
             id: 3,
             title: "HTML & CSS: Build Your First Website",
             excerpt: "Step-by-step guide to creating your first webpage. No prior web development knowledge required.",
-            content: "This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.",
+            content: "<p>This is a fallback post content. In production, posts would be loaded from JSON files on GitHub.</p>",
             category: "Web Development",
             skillLevel: "beginner",
             date: "2023-11-05",
@@ -486,3 +1084,7 @@ window.addEventListener('error', function(e) {
     console.error('Global error:', e.error);
     showError('A JavaScript error occurred: ' + e.message);
 });
+
+// Export for potential future use
+window.BlogStore = BlogStore;
+window.blogStore = blogStore;

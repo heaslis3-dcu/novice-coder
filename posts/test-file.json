@@ -1,0 +1,58 @@
+{
+  "id": 1,
+  "title": "This is a test file!",
+  "excerpt": "This is a test file used for debugging...",
+  "content": [
+    {
+      "type": "heading",
+      "level": 1,
+      "text": "Getting Started with Programming"
+    },
+    {
+      "type": "paragraph", 
+      "text": "Welcome to your coding journey! This guide will help you take your first steps into the world of programming."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "What is Programming?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Programming is the process of writing instructions for computers to execute..."
+    },
+    {
+      "type": "code",
+      "language": "python",
+      "code": "print(\"Hello, World!\")"
+    },
+    {
+      "type": "list",
+      "style": "unordered",
+      "items": [
+        "Python - Great for beginners, readable syntax",
+        "JavaScript - Essential for web development", 
+        "HTML/CSS - The building blocks of the web"
+      ]
+    },
+    {
+      "type": "image",
+      "src": "path/to/image.jpg",
+      "alt": "Description of image",
+      "caption": "Optional caption"
+    },
+    {
+      "type": "quote",
+      "text": "The journey of a thousand miles begins with a single step.",
+      "author": "Lao Tzu"
+    }
+  ],
+  "category": "Getting Started",
+  "skillLevel": "beginner",
+  "date": "2023-11-28",
+  "readTime": "8 min read", 
+  "slug": "test-file",
+  "published": true,
+  "tags": ["programming", "beginner", "tutorial", "python"],
+  "icon": "👋"
+}

@@ -16,18 +16,15 @@ A record of my coding development, a beginner-friendly developer blog, built to 
 - **Hosting**: GitHub Pages
 - **Content**: JSON files for easy management
 
-## Content Categories
+## Current functionality
 
-- **Getting Started** - Beginning programming concepts
-- **Python Basics** - Python programming for beginners
-- **Web Development** - HTML, CSS, JavaScript fundamentals
-- **Tools & Setup** - Development environment guides
-- **Projects** - Step-by-step project tutorials
-- **Learning Tips** - Study strategies and resources
+- **Card-based** - posts display with hover effects and animations
+- **Modal** - post viewing without page navigation
+- **JSON-based** - content management
 
 ## 📝 JSON Post Structure
 
-Blog posts are stored as JSON files with this structure:
+Blog posts are stored as JSON files with using both HTML string and structured array content formats, the later is the preferred solution as it is easier to maintain and edit.
 
 ```json
 {
@@ -43,7 +40,23 @@ Blog posts are stored as JSON files with this structure:
   "published": true,
   "tags": ["tag1", "tag2"],
   "icon": "🚀"
-}
+} 
+
+## TO DO 
+- **TO DO** -
+Category and skill level filtering
+Search functionality
+Responsive mobile-first design
+Sci-fi themed UI with glassmorphism effects
+Accessibility features 
+
+
+Resolved Issues
+1. JavaScript Loading Fixed - Removed duplicate embedded JavaScript from index.html, now properly loading from external main.js
+2. JSON Content System Working - Posts successfully load from individual JSON files in /posts/ directory
+3. Modal System Implemented - Full post content displays in modal overlay with proper formatting
+4. Content Format Handling - JavaScript now handles both HTML string and structured array content formats
+5. Path Resolution - Fixed file path issues for local development and GitHub Pages deployment
 
 🚀 Quick Start
 

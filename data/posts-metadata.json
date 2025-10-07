@@ -2,13 +2,13 @@
   "posts": [
     {
       "id": 1,
-      "title": "Getting Started with Programming",
-      "excerpt": "Absolute beginner's guide to starting your coding journey. Learn what programming is and how to choose your first language.",
-      "category": "Getting Started",
+      "title": "testing",
+      "excerpt": "TEST Complete guide to installing and configuring VS Code, Git, and essential developer tools.",
+      "category": "Tools & Setup",
       "skillLevel": "beginner",
-      "date": "2023-11-15",
-      "readTime": "8 min read",
-      "slug": "getting-started-programming",
+      "date": "2023-11-28",
+      "readTime": "10 min read",
+      "slug": "test-file",
       "published": true
     },
     {
@@ -35,13 +35,13 @@
     },
     {
       "id": 4,
-      "title": "Setting Up Your Development Environment",
-      "excerpt": "Complete guide to installing and configuring VS Code, Git, and essential developer tools.",
-      "category": "Tools & Setup",
+      "title": "Getting Started with Programming",
+      "excerpt": "Absolute beginner's guide to starting your coding journey. Learn what programming is and how to choose your first language.",
+      "category": "Getting Started",
       "skillLevel": "beginner",
-      "date": "2023-10-28",
-      "readTime": "10 min read",
-      "slug": "setting-up-development-environment",
+      "date": "2023-11-04",
+      "readTime": "8 min read",
+      "slug": "getting-started-programming",
       "published": true
     },
     {
@@ -71,7 +71,7 @@
     "Getting Started",
     "Python Basics",
     "Web Development",
-    "Tools & Setup",
+    "Testing",
     "Projects",
     "Learning Tips"
   ],
