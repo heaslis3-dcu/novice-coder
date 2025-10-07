@@ -2,7 +2,7 @@
 Novice coder blog website code
 
 # The Novice Coder Blog
-
+TT
 A record of my coding development, a beginner-friendly developer blog, built to document my coding journey and share learning experience with other aspiring developers. 
 
 ## Features
